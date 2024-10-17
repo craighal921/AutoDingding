@@ -25,9 +25,11 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew assembleRelease
     - name: List APK output directory
-      run: ls apk/history/
-    - name: List APK output directory
-      run: ls apk/auto/release/
-    - name: List APK output directory
-      run: ls -R app/
+      run: ls app/build/outputs/apk/auto/release/
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: myapp-release.apk
+        path: app/build/outputs/apk/auto/release/*.apk
+        if-no-files-found: warn
       
