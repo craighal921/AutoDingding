@@ -29,6 +29,7 @@ jobs:
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
+        name: my_app.apk
         path: app/build/outputs/apk/auto/release/*.apk
         if-no-files-found: warn
       
