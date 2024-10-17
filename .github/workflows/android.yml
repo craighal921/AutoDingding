@@ -28,4 +28,6 @@ jobs:
       run: ls apk/history/
     - name: List APK output directory
       run: ls apk/auto/release/
+    - name: List APK output directory
+      run: ls -R app/
       
