@@ -27,9 +27,8 @@ jobs:
     - name: List APK output directory
       run: ls app/build/outputs/apk/auto/release/
     - name: Upload APK
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: myapp-release.apk
         path: app/build/outputs/apk/auto/release/*.apk
         if-no-files-found: warn
       
