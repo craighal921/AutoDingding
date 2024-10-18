@@ -10,7 +10,7 @@ object Constant {
     const val USER_MAIL_ACCOUNT = "105246120@qq.com"
 
     //邮箱授权码，不是密码
-    const val PERMISSION_CODE = "cmgyxvyzscslbhge"
+    const val PERMISSION_CODE = "hfwdzmtcybkkbhib"
 
     //发送者邮箱地址
     const val MAIL_FROM_ADDRESS = "105246120@qq.com"
