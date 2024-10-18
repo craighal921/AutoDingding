@@ -20,7 +20,7 @@ public class MailInfo {
     private String userName;
     private String password;
     // 是否需要身份验证
-    private boolean validate = true;
+    private boolean validate = false;
     // 邮件主题
     private String subject;
     // 邮件的文本内容
