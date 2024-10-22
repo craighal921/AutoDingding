@@ -60,7 +60,7 @@ fun String.diffCurrentMillis(): Long {
 fun String.createTextMail(subject: String, toAddress: String): MailInfo {
     val mailInfo = MailInfo()
     mailInfo.mailServerHost = "smtp.qq.com" //发送方邮箱服务器
-    mailInfo.mailServerPort = "587" //发送方邮箱端口号
+    mailInfo.mailServerPort = "465" //发送方邮箱端口号
     mailInfo.isValidate = true
     mailInfo.userName = Constant.USER_MAIL_ACCOUNT
     mailInfo.password = Constant.PERMISSION_CODE
