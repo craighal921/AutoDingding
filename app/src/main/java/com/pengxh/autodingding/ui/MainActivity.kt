@@ -1,17 +1,19 @@
 package com.pengxh.autodingding.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.gyf.immersionbar.ImmersionBar
 import com.pengxh.autodingding.R
 import com.pengxh.autodingding.adapter.BaseFragmentAdapter
 import com.pengxh.autodingding.databinding.ActivityMainBinding
+import com.pengxh.autodingding.extensions.initImmersionBar
 import com.pengxh.autodingding.extensions.isAppAvailable
 import com.pengxh.autodingding.fragment.DingDingFragment
 import com.pengxh.autodingding.fragment.SettingsFragment
+import com.pengxh.autodingding.service.ForegroundRunningService
 import com.pengxh.autodingding.utils.Constant
 import com.pengxh.kt.lite.base.KotlinBaseActivity
 import com.pengxh.kt.lite.extensions.show
@@ -29,7 +31,7 @@ class MainActivity : KotlinBaseActivity<ActivityMainBinding>() {
     }
 
     override fun setupTopBarLayout() {
-        ImmersionBar.with(this).statusBarDarkFont(true).init()
+        binding.rootView.initImmersionBar(this, true, R.color.mainBackground)
     }
 
     override fun initOnCreate(savedInstanceState: Bundle?) {
@@ -62,6 +64,8 @@ class MainActivity : KotlinBaseActivity<ActivityMainBinding>() {
                     }
                 }).build().show()
         }
+
+        startService(Intent(this, ForegroundRunningService::class.java))
     }
 
     override fun initEvent() {

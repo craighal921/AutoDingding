@@ -15,10 +15,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.lifecycle.lifecycleScope
 import com.pengxh.autodingding.BuildConfig
 import com.pengxh.autodingding.R
 import com.pengxh.autodingding.databinding.FragmentSettingsBinding
-import com.pengxh.autodingding.extensions.initImmersionBar
 import com.pengxh.autodingding.extensions.notificationEnable
 import com.pengxh.autodingding.extensions.show
 import com.pengxh.autodingding.service.FloatingWindowService
@@ -34,6 +34,9 @@ import com.pengxh.kt.lite.utils.SaveKeyValues
 import com.pengxh.kt.lite.utils.WeakReferenceHandler
 import com.pengxh.kt.lite.widget.dialog.AlertInputDialog
 import com.pengxh.kt.lite.widget.dialog.BottomActionSheet
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class SettingsFragment : KotlinBaseFragment<FragmentSettingsBinding>(), Handler.Callback {
@@ -46,7 +49,7 @@ class SettingsFragment : KotlinBaseFragment<FragmentSettingsBinding>(), Handler.
     private val timeArray = arrayListOf("15s", "30s", "45s", "60s")
 
     override fun setupTopBarLayout() {
-        binding.rootView.initImmersionBar(this, true, R.color.white)
+
     }
 
     override fun observeRequestState() {
@@ -62,6 +65,9 @@ class SettingsFragment : KotlinBaseFragment<FragmentSettingsBinding>(), Handler.
     override fun initOnCreate(savedInstanceState: Bundle?) {
         weakReferenceHandler = WeakReferenceHandler(this)
         binding.appVersion.text = BuildConfig.VERSION_NAME
+        if (requireContext().notificationEnable()) {
+            turnOnNotificationMonitorService()
+        }
     }
 
     override fun initEvent() {
@@ -220,19 +226,7 @@ class SettingsFragment : KotlinBaseFragment<FragmentSettingsBinding>(), Handler.
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100) {
             if (requireContext().notificationEnable()) {
-                requireContext().packageManager.setComponentEnabledSetting(
-                    ComponentName(requireContext(), NotificationMonitorService::class.java),
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                    PackageManager.DONT_KILL_APP
-                )
-
-                Thread.sleep(1000)
-
-                requireContext().packageManager.setComponentEnabledSetting(
-                    ComponentName(requireContext(), NotificationMonitorService::class.java),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP
-                )
+                turnOnNotificationMonitorService()
             }
         } else if (requestCode == 101) {
             binding.floatSwitch.isChecked = Settings.canDrawOverlays(requireContext())
@@ -241,11 +235,9 @@ class SettingsFragment : KotlinBaseFragment<FragmentSettingsBinding>(), Handler.
 
     override fun handleMessage(msg: Message): Boolean {
         if (msg.what == 2024090801) {
-            "通知监听服务运行中".show(requireContext())
             binding.noticeSwitch.isChecked = true
             binding.tipsView.visibility = View.GONE
         } else if (msg.what == 2024090802) {
-            "通知监听服务已关闭".show(requireContext())
             binding.noticeSwitch.isChecked = false
             binding.tipsView.visibility = View.VISIBLE
         }
@@ -279,6 +271,22 @@ class SettingsFragment : KotlinBaseFragment<FragmentSettingsBinding>(), Handler.
         } else {
             binding.tipsView.text = "通知监听服务未开启，无法监听打卡通知"
             binding.tipsView.setTextColor(R.color.red.convertColor(requireContext()))
+        }
+    }
+
+    private fun turnOnNotificationMonitorService() {
+        lifecycleScope.launch(Dispatchers.IO){
+            requireContext().packageManager.setComponentEnabledSetting(
+                ComponentName(requireContext(), NotificationMonitorService::class.java),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+            )
+
+            delay(1000)
+
+            requireContext().packageManager.setComponentEnabledSetting(
+                ComponentName(requireContext(), NotificationMonitorService::class.java),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
+            )
         }
     }
 }
