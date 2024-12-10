@@ -12,10 +12,8 @@ android {
         minSdkVersion 23
         targetSdkVersion 33
 
-        versionCode 1581
-        versionName "1.5.8.1"
-
-        flavorDimensions "versionCode"
+        versionCode 1591
+        versionName "1.5.9.1"
     }
 
     signingConfigs {
