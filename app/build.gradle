@@ -11,9 +11,9 @@ android {
         applicationId "com.pengxh.autodingding"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 1590
-        versionName "1.5.9"
-        flavorDimensions "versionCode"
+
+        versionCode 1591
+        versionName "1.5.9.1"
     }
 
     signingConfigs {
@@ -27,6 +27,7 @@ android {
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
