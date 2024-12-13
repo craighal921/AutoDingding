@@ -11,9 +11,9 @@ android {
         applicationId "com.pengxh.autodingding"
         minSdkVersion 23
         targetSdkVersion 33
-
-        versionCode 1591
-        versionName "1.5.9.1"
+        versionCode 1601
+        versionName "1.6.0.1"
+        flavorDimensions "versionCode"
     }
 
     signingConfigs {
