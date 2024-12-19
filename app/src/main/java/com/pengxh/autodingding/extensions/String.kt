@@ -32,8 +32,10 @@ fun String.convertToWeek(): String {
 
 fun String.createTextMail(subject: String, toAddress: String): MailInfo {
     val mailInfo = MailInfo()
+
     mailInfo.mailServerHost = Constant.MAIL_SERVER //发送方邮箱服务器
     mailInfo.mailServerPort = Constant.MAIL_SERVER_PORT //发送方邮箱端口号
+
     mailInfo.isValidate = true
     mailInfo.userName = Constant.USER_MAIL_ACCOUNT
     mailInfo.password = Constant.PERMISSION_CODE
